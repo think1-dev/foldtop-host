@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "foldtop-host"
+version = "1.0.0"
+description = "Workstation companion for the Foldtop iOS app: streams an X11 monitor and injects input"
+requires-python = ">=3.10"
+# PyGObject and GStreamer come from the distribution (python3-gi, gstreamer1.0-plugins-good,
+# gstreamer1.0-plugins-ugly); they are deliberately not listed as PyPI dependencies.
+dependencies = ["cryptography>=3.4"]
+
+[project.scripts]
+foldtop-host = "foldtop_host.__main__:main"
+
+[tool.setuptools]
+packages = ["foldtop_host"]

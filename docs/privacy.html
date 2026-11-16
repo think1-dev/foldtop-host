@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foldtop privacy policy</title>
+<meta name="description" content="Foldtop collects no data. The app talks only to the workstations you pair.">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="icon.png" alt="">Foldtop</a>
+    <nav>
+      <a href="./#setup">Setup</a>
+      <a href="./#help">Help</a>
+      <a href="privacy.html" aria-current="page">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <h1>Privacy policy</h1>
+    <p class="updated">Last updated 16 November 2026</p>
+  </section>
+
+  <p class="lead">Foldtop collects no data. The app talks only to the workstations
+  you pair with it, and nothing is sent to the developer or to anyone else.</p>
+
+  <p>This policy covers the Foldtop app for iPhone and the Foldtop companion that
+  runs on a workstation. "We" means the developer of Foldtop, named as the seller
+  on the app's App Store page.</p>
+
+  <h2>What we collect</h2>
+  <p>Nothing. Foldtop has no accounts, no analytics, no advertising and no
+  tracking. We run no servers that the app or the companion contact. We cannot see
+  your screen, your typing, your sound, your clipboard or which workstations you
+  use.</p>
+
+  <h2>What stays on your devices</h2>
+  <ul>
+    <li><strong>On the iPhone:</strong> your settings, and for each workstation you
+    pair its name, network addresses, certificate fingerprint and a key for that
+    pairing. The key is kept in the iOS Keychain. Removing a workstation in the
+    app, or deleting the app, removes them.</li>
+    <li><strong>On the workstation:</strong> the companion's certificate and key,
+    the list of paired devices (name, identifier and key) and optional settings,
+    in the folder <code>~/.config/foldtop</code>. The companion writes ordinary
+    log lines, such as when a device connects and from which address, to the
+    system journal on that workstation.</li>
+  </ul>
+
+  <h2>What travels between your iPhone and your workstation</h2>
+  <p>While you are connected, the workstation sends its screen picture, pointer
+  shape and sound to the iPhone, and the iPhone sends your touches and
+  keystrokes to the workstation. If you switch them on, the iPhone's microphone
+  audio and copied text are sent as well. All of it goes directly between your
+  two devices over an encrypted connection, across your own network or VPN. It is
+  not recorded by Foldtop and does not pass through any service of ours.</p>
+
+  <h2>Permissions the app asks for</h2>
+  <ul>
+    <li><strong>Local network:</strong> to find and connect to workstations on
+    your network.</li>
+    <li><strong>Camera:</strong> only to scan the pairing QR code shown by your
+    workstation. Pictures are read on the iPhone and are not saved or sent.</li>
+    <li><strong>Microphone:</strong> only while you have Microphone switched on
+    in a session. The audio is sent to the workstation you are connected to and
+    nowhere else.</li>
+    <li><strong>Pasteboard:</strong> when Share Clipboard is on, text you copied
+    on the iPhone is sent to the workstation you are connected to, and text
+    copied on the workstation is placed on the iPhone's clipboard. You can turn
+    this off in the app's settings.</li>
+  </ul>
+
+  <h2>Apple</h2>
+  <p>The app is distributed by Apple. If you have chosen to share analytics with
+  app developers in your iPhone's settings, Apple may give us anonymous,
+  aggregated statistics such as crash reports and download counts. That is
+  governed by Apple's own privacy policy, and it does not include anything from
+  inside your sessions.</p>
+
+  <h2>Support requests</h2>
+  <p>If you open an issue on our
+  <a href="https://github.com/think1-dev/foldtop-host/issues">GitHub issues page</a>,
+  what you write there is public and is handled by GitHub under its own privacy
+  policy. Do not include passwords, pairing codes or anything else private.</p>
+
+  <h2>Children</h2>
+  <p>Foldtop is a utility for people who use a workstation. It is not directed at
+  children and collects no data from anyone.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, the new version will be published on this page with
+  a new date at the top.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy can be asked on the
+  <a href="https://github.com/think1-dev/foldtop-host/issues">issues page</a>.</p>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p><a href="./">Foldtop</a> ·
+    <a href="https://github.com/think1-dev/foldtop-host/issues">Support</a> ·
+    <a href="https://github.com/think1-dev/foldtop-host">Source</a></p>
+    <p>iPhone is a trademark of Apple Inc. Foldtop is not affiliated with Apple.</p>
+  </div>
+</footer>
+
+</body>
+</html>

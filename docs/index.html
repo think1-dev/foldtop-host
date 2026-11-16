@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foldtop: your Linux workstation on your iPhone</title>
+<meta name="description" content="Foldtop shows your Linux workstation on your iPhone with a keyboard and trackpad underneath. Setup guide and help.">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="icon.png" alt="">Foldtop</a>
+    <nav>
+      <a href="#setup">Setup</a>
+      <a href="#help">Help</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <img src="icon.png" alt="Foldtop app icon">
+    <h1>Your Linux workstation, on your iPhone</h1>
+    <p class="lead">Foldtop shows your workstation's screen on your iPhone and puts a
+    keyboard and trackpad underneath. Stand an iPhone Duo half-folded and it works
+    like a small laptop: picture above the fold, keys below.</p>
+  </section>
+
+  <p>Foldtop has two parts: the <strong>Foldtop app</strong> on the iPhone, and a
+  small free <strong>companion</strong> that runs on the workstation. The app
+  connects straight to your own workstation. There is no account and no server in
+  between.</p>
+
+  <h2 id="needs">What you need</h2>
+  <ul>
+    <li>An iPhone on iOS 27.1 or later with the Foldtop app. Any iPhone works; the
+    laptop layout uses the fold on an iPhone Duo.</li>
+    <li>A Linux workstation running an <strong>X11 session</strong>. Wayland is not
+    supported. In a terminal, <code>echo $XDG_SESSION_TYPE</code> should print
+    <code>x11</code>.</li>
+    <li>The iPhone and the workstation on the same network, or joined by a VPN such
+    as Tailscale.</li>
+  </ul>
+  <p>The companion is developed and tested on Ubuntu 24.04 LTS. Other
+  distributions with Python 3.10+, GStreamer 1.22+ and PipeWire or PulseAudio
+  should work but have not been tried.</p>
+
+  <h2 id="setup">Set up a workstation</h2>
+  <ol class="steps">
+    <li>
+      <strong>Install what the companion needs.</strong>
+      <pre><code>sudo apt install git python3-gi gir1.2-gstreamer-1.0 python3-cryptography \
+    gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly</code></pre>
+    </li>
+    <li>
+      <strong>Download and install the companion.</strong>
+      <pre><code>git clone https://github.com/think1-dev/foldtop-host.git
+cd foldtop-host
+./install.sh --apply
+systemctl --user enable --now foldtop-host</code></pre>
+      <p>Nothing runs as root. The companion now starts whenever you log in to
+      your desktop. If the installer reports a problem, it says what is missing.</p>
+    </li>
+    <li>
+      <strong>Show a pairing code.</strong>
+      <pre><code>foldtop-host pair</code></pre>
+      <p>A QR code and an 8-character code appear. Both work once, for five
+      minutes. If the command is not found, log out and in again, or run
+      <code>~/.local/bin/foldtop-host pair</code>.</p>
+    </li>
+    <li>
+      <strong>Pair in the app.</strong>
+      <p>Open Foldtop, tap <strong>Pair a Workstation…</strong> and scan the QR
+      code. Or pick your workstation under <strong>On This Network</strong> and
+      type the code. Allow local network access when iOS asks.</p>
+    </li>
+    <li>
+      <strong>Connect.</strong>
+      <p>Tap the workstation in the list. Its screen appears, with the keyboard
+      and trackpad below it.</p>
+    </li>
+  </ol>
+
+  <div class="note">
+    <p><strong>Firewall.</strong> The iPhone reaches the workstation on TCP port
+    47800. If the workstation's firewall is on, allow it for your network, for
+    example <code>sudo ufw allow from 192.168.0.0/24 to any port 47800 proto tcp</code>.</p>
+  </div>
+
+  <h2 id="using">Using it</h2>
+  <ul>
+    <li><strong>Laptop layout.</strong> On an iPhone Duo, fold it part-way and stand
+    it up. The picture moves above the fold and the keyboard and trackpad fill the
+    half below. Open it flat for a full-screen picture.</li>
+    <li><strong>Trackpad.</strong> Move with one finger and tap to click. Tap with
+    two fingers for a right click, three for a middle click. Slide two fingers to
+    scroll. To drag, tap and then drag, or hold still and then move.</li>
+    <li><strong>Keyboard.</strong> A full laptop layout. Tap shift, ctrl, alt or
+    super once for the next key, twice to lock it. <code>fn</code> switches to
+    function keys and common shortcuts. A hardware keyboard attached to the iPhone
+    types straight through.</li>
+    <li><strong>Sound and microphone.</strong> The workstation's sound plays on the
+    iPhone. Switch <strong>Microphone</strong> on in the session menu (⋯) to use
+    the iPhone as the workstation's microphone. Use headphones while it is on;
+    there is no echo cancellation.</li>
+    <li><strong>Clipboard.</strong> Text copied on one device can be pasted on the
+    other.</li>
+    <li><strong>Away from home.</strong> With a VPN such as Tailscale on both
+    devices, Foldtop connects from anywhere. Connect once at home first so the
+    app learns the workstation's VPN address.</li>
+  </ul>
+
+  <h2 id="help">Help</h2>
+
+  <h3>The workstation is not listed under On This Network</h3>
+  <p>Check that the companion is running with <code>foldtop-host status</code>,
+  that both devices are on the same Wi-Fi, and that Foldtop has Local Network
+  access in the iPhone's Settings. You can always pair with the QR code instead.</p>
+
+  <h3>It pairs but will not connect</h3>
+  <p>This is almost always the firewall. Allow TCP port 47800 as shown above, then
+  try again.</p>
+
+  <h3>The picture is black or the companion will not start</h3>
+  <p>Run <code>foldtop-host doctor</code>. The most common cause is a Wayland
+  session; choose an Xorg session on the login screen.</p>
+
+  <h3>The microphone is on but nothing is heard</h3>
+  <p>In the workstation's sound settings, choose <strong>Foldtop Microphone</strong>
+  as the input. The companion makes it the default while the microphone is on,
+  but an application may have chosen another input for itself.</p>
+
+  <h3>Remove a device or the companion</h3>
+  <p><code>foldtop-host devices</code> lists paired devices and
+  <code>foldtop-host unpair &lt;name&gt;</code> removes one. To remove the
+  companion, see the
+  <a href="https://github.com/think1-dev/foldtop-host#update-or-remove">README</a>.</p>
+
+  <h3>Something else</h3>
+  <p>Ask a question or report a problem on the
+  <a href="https://github.com/think1-dev/foldtop-host/issues">issues page</a>.
+  Include the output of <code>foldtop-host doctor</code> if you can.</p>
+
+  <h2 id="security">Security</h2>
+  <ul>
+    <li>The connection is encrypted (TLS). The app accepts only the certificate it
+    saw when you paired.</li>
+    <li>Pairing needs the one-time code shown on the workstation.</li>
+    <li>A paired iPhone can see the screen and type and click as you. Pair only
+    your own devices, and remove one with <code>foldtop-host unpair</code>.</li>
+    <li>Do not forward port 47800 from the internet. Use a VPN to connect from
+    outside your network.</li>
+  </ul>
+  <p>The companion is open source under the MIT licence:
+  <a href="https://github.com/think1-dev/foldtop-host">github.com/think1-dev/foldtop-host</a>.</p>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p><a href="privacy.html">Privacy policy</a> ·
+    <a href="https://github.com/think1-dev/foldtop-host/issues">Support</a> ·
+    <a href="https://github.com/think1-dev/foldtop-host">Source</a></p>
+    <p>iPhone is a trademark of Apple Inc. Foldtop is not affiliated with Apple.</p>
+  </div>
+</footer>
+
+</body>
+</html>

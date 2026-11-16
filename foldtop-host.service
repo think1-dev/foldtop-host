@@ -1,0 +1,24 @@
+# systemd *user* unit for the Foldtop workstation companion.
+#
+#   ./install.sh --apply      writes this file to ~/.config/systemd/user/ with the real path
+#   systemctl --user enable --now foldtop-host
+#
+# It is part of the graphical session because it needs the X display; DISPLAY and
+# XAUTHORITY are imported into the user manager by the desktop session at login.
+[Unit]
+Description=Foldtop workstation companion (screen streaming and input for the Foldtop iOS app)
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+WorkingDirectory=@FOLDTOP_HOST_DIR@
+ExecStart=/usr/bin/python3 -m foldtop_host run
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+LockPersonality=yes
+RestrictSUIDSGID=yes
+
+[Install]
+WantedBy=graphical-session.target
